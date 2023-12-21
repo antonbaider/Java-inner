@@ -110,7 +110,6 @@ public class AddressBook implements Iterable {
             public int hashCode() {
                 return Objects.hash(firstName, lastName);
             }
-//
         }
 
         private final Person person;

@@ -1,27 +1,24 @@
 package jom.com.softserve.s3.task2;
 
 class NameList {
-	private final String[] names = {"Mike", "Emily", "Nick", "Patric", "Sara"};
+    private final String[] names = {"Mike", "Emily", "Nick", "Patric", "Sara"};
 
-	public Iterator getIterator() {
-		return new Iterator();
-	}
+    public Iterator getIterator() {
+        return new Iterator();
+    }
 
-	public class Iterator {
-		private int counter = 0;
+    public class Iterator {
+        private int counter = 0;
 
-		private Iterator() {
-		}
+        private Iterator() {
+        }
 
-		public boolean hasNext() {
-			return counter < names.length;
-		}
+        public boolean hasNext() {
+            return counter < names.length;
+        }
 
-		public String next() {
-			if (!hasNext()) {
-				throw new RuntimeException("No more elements in the list");
-			}
-			return names[counter++];
-		}
-	}
+        public String next() {
+            return names[counter++];
+        }
+    }
 }

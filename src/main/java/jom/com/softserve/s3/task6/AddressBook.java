@@ -1,12 +1,15 @@
 package jom.com.softserve.s3.task6;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Objects;
 
 enum SortOrder {
     ASC, DESC
 }
 
-@SuppressWarnings("unchecked")
+
 public class AddressBook implements Iterable {
 
     private NameAddressPair[] addressBook;
@@ -52,16 +55,16 @@ public class AddressBook implements Iterable {
     }
 
     public boolean delete(String firstName, String lastName) {
-        NameAddressPair.Person person = new NameAddressPair.Person(firstName, lastName);
-        List<NameAddressPair> list = new ArrayList<>(Arrays.asList(addressBook));
-        Iterator<NameAddressPair> iterator = list.iterator();
+        AddressBookIterator iterator = new AddressBookIterator();
         while (iterator.hasNext()) {
-            NameAddressPair currentEntry = iterator.next();
-            if (currentEntry.equals(person)) {
-                iterator.remove();
-                addressBook = list.toArray(new NameAddressPair[list.size()]);
+            NameAddressPair pair = addressBook[iterator.counter];
+            if (pair != null && pair.person.firstName.equals(firstName) && pair.person.lastName.equals(lastName)) {
+                addressBook[iterator.counter] = null;
+                counter--;
+                System.arraycopy(addressBook, iterator.counter + 1, addressBook, iterator.counter, counter - iterator.counter);
                 return true;
             }
+            iterator.next();
         }
         return false;
     }
@@ -71,7 +74,9 @@ public class AddressBook implements Iterable {
     }
 
     public void sortedBy(SortOrder order) {
-        Comparator<NameAddressPair> personComparator = Comparator.comparing((NameAddressPair p) -> p.person.firstName).thenComparing(p -> p.person.lastName);
+
+        Comparator<NameAddressPair> personComparator = Comparator.comparing((NameAddressPair p) -> p.person.firstName).thenComparing(p -> p.person.lastName).thenComparing(p -> p.address);
+
         if (order == SortOrder.ASC) {
             Arrays.sort(addressBook, personComparator);
         } else if (order == SortOrder.DESC) {
@@ -84,7 +89,7 @@ public class AddressBook implements Iterable {
         return new AddressBookIterator();
     }
 
-    public static class NameAddressPair {
+    private static class NameAddressPair {
         public static class Person {
             private String firstName;
             private String lastName;
@@ -115,14 +120,14 @@ public class AddressBook implements Iterable {
         private final Person person;
         private String address;
 
-        public NameAddressPair(Person person, String address) {
+        private NameAddressPair(Person person, String address) {
             this.person = person;
             this.address = address;
         }
 
         @Override
         public String toString() {
-            return person + ", Address='" + address;
+            return person + ", Address: " + address;
         }
 
         @Override
@@ -152,3 +157,4 @@ public class AddressBook implements Iterable {
         }
     }
 }
+

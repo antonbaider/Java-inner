@@ -73,9 +73,7 @@ public class AddressBook implements Iterable {
     }
 
     public void sortedBy(SortOrder order) {
-
         Comparator<NameAddressPair> personComparator = Comparator.comparing((NameAddressPair p) -> p.person.firstName).thenComparing(p -> p.person.lastName).thenComparing(p -> p.address);
-
         if (order == SortOrder.ASC) {
             Arrays.sort(addressBook, personComparator);
         } else if (order == SortOrder.DESC) {
@@ -151,8 +149,8 @@ public class AddressBook implements Iterable {
         }
 
         @Override
-        public String next() {
-            return addressBook[counter++].toString();
+        public NameAddressPair next() {
+            return addressBook[counter++];
         }
     }
 }

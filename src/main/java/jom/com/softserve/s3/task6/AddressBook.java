@@ -9,7 +9,6 @@ enum SortOrder {
     ASC, DESC
 }
 
-
 public class AddressBook implements Iterable {
 
     private NameAddressPair[] addressBook;
@@ -90,33 +89,6 @@ public class AddressBook implements Iterable {
     }
 
     private static class NameAddressPair {
-        public static class Person {
-            private String firstName;
-            private String lastName;
-
-            private Person(String firstName, String lastName) {
-                this.firstName = firstName;
-                this.lastName = lastName;
-            }
-
-            @Override
-            public String toString() {
-                return "First name: " + firstName + ", Last name: " + lastName;
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (!(o instanceof Person person)) return false;
-                return Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(firstName, lastName);
-            }
-        }
-
         private final Person person;
         private String address;
 
@@ -141,6 +113,33 @@ public class AddressBook implements Iterable {
         public int hashCode() {
             return Objects.hash(person, address);
         }
+
+        public static class Person {
+            private final String firstName;
+            private final String lastName;
+
+            private Person(String firstName, String lastName) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+            }
+
+            @Override
+            public String toString() {
+                return "First name: " + firstName + ", Last name: " + lastName;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof Person person)) return false;
+                return Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(firstName, lastName);
+            }
+        }
     }
 
     private class AddressBookIterator implements Iterator {
@@ -157,4 +156,3 @@ public class AddressBook implements Iterable {
         }
     }
 }
-
